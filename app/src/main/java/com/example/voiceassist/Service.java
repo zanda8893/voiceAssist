@@ -3,12 +3,14 @@ package com.example.voiceassist;
 import android.accessibilityservice.AccessibilityService;
 import android.view.accessibility.AccessibilityEvent;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 public class Service extends AccessibilityService {
-    private static final String TAG = "My Service:";
+    public static String appname = "";
+    private static final String TAG = "My Service: ";
     public static boolean recording = false;
     private static AccessibilityEvent[] events = new AccessibilityEvent[100];
     private static String[] text = new String[10];
@@ -18,11 +20,10 @@ public class Service extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (recording) {
+            System.out.println(event.getPackageName().toString());
             if (event.getPackageName() != null && event.getPackageName().length() != 0) {
                 String app = (String) event.getPackageName().toString();
-                String appname = app.substring(app.lastIndexOf('.') + 1);
-
-                if (appname.equals("whatsapp")) {
+                if (app.equals(appname)) {
                     //System.out.println("whatsapp event");
                     if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_CLICKED) {
                         typing = false;
@@ -38,6 +39,8 @@ public class Service extends AccessibilityService {
                     }
 
                 }
+            } else if (event.getPackageName() != appname) {
+                recording = false;
             }
 
             // System.out.println("Event: " + event.toString());
@@ -51,6 +54,6 @@ public class Service extends AccessibilityService {
 
     @Override
     public void onServiceConnected() {
-        System.out.println("Service running");
+        Log.v(TAG, "Service running");
     }
 }

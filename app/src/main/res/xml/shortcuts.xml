@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- shortcuts.xml -->
+<capability android:name="actions.intent.ORDER_MENU_ITEM">
+    <intent
+        android:action="android.intent.action.MAIN"
+        android:targetPackage="com.example.voiceassist"
+        android:targetClass="com.example.voiceassist.Action">
+        <parameter
+            android:name="Action.name"
+            android:key="query">
+        </parameter>
+    </intent>
+</capability>
